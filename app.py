@@ -72,10 +72,10 @@ async def echo_post(request: Request) -> Dict[str, Any]:
             "endpoint": "/echo-post",
             "received_data": body
         }
-    except Exception as e:
+    except json.JSONDecodeError as e:
         logger.error(f"Error processing POST request: {str(e)}")
         return {
-            "error": "Invalid JSON or request body",
+            "error": "Invalid JSON",
             "details": str(e)
         }
 

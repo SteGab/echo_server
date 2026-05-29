@@ -46,6 +46,45 @@ uv run python app.py
 
 Der Server läuft dann auf `http://127.0.0.1:8000`
 
+## Testing
+
+### Abhängigkeiten installieren
+
+```bash
+# Alle Test-Abhängigkeiten installieren
+uv sync --extra test
+```
+
+### Tests ausführen
+
+```bash
+# Alle Tests ausführen
+uv run pytest
+
+# Tests mit Ausgabe
+uv run pytest -v
+
+# Tests mit Coverage-Report
+uv run pytest --cov=app
+
+# Nur einen spezifischen Test ausführen
+uv run pytest tests/test_app.py::TestRootEndpoint::test_root_endpoint
+```
+
+### Test-Struktur
+
+```
+tests/
+├── conftest.py          # Shared fixtures und Konfiguration
+└── test_app.py          # Alle Tests für app.py
+```
+
+**Test-Kategorien:**
+- **TestRootEndpoint**: Tests für den Root-Endpoint (`/`)
+- **TestEchoGetEndpoint**: Tests für GET-Endpoint mit verschiedenen Parametern
+- **TestEchoPostEndpoint**: Tests für POST-Endpoint mit JSON-Daten
+- **TestEndpointIntegration**: Integrationstests für mehrere Endpoints
+
 ### API Endpoints
 
 #### 1. GET Endpoint: `/echo-get`

@@ -5,7 +5,7 @@ description = "Ein einfacher Echo-Server, der GET und POST Requests verarbeitet 
 readme = "README.md"
 requires-python = ">=3.8"
 authors = [
-    { name = "Echo Server", email = "" }
+    { name = "Echo Server"}
 ]
 
 dependencies = [
@@ -13,6 +13,24 @@ dependencies = [
     "uvicorn>=0.23.0",
 ]
 
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "httpx>=0.24.0",
+]
+
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --strict-markers"
+markers = [
+    "endpoint: marks tests as endpoint tests",
+    "integration: marks tests as integration tests",
+]
