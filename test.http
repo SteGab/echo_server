@@ -1,0 +1,6 @@
+POST http://localhost:8000/echo-post
+Content-Type: application/json
+
+{
+    "message": "Hello, Echo Server!"
+}   
