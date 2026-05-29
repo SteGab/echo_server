@@ -1,0 +1,18 @@
+[project]
+name = "echo-server"
+version = "1.0.0"
+description = "Ein einfacher Echo-Server, der GET und POST Requests verarbeitet und die empfangenen Daten zurücksendet"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    { name = "Echo Server", email = "" }
+]
+
+dependencies = [
+    "fastapi>=0.100.0",
+    "uvicorn>=0.23.0",
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
