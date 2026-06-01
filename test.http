@@ -4,3 +4,24 @@ Content-Type: application/json
 {
     "message": "Hello, Echo Server!"
 }   
+
+
+###
+POST http://localhost:8000/echo-post
+Content-Type: application/json
+
+{
+    "timestamp": "{{$localDatetime iso8601}}",
+    "Param1": "Parameter1", 
+    "nested": "{\"value1\": \"No1\", \"value2\": \"No2\"}"
+}
+
+
+###
+GET http://localhost:8000/echo-get?timestamp={{$localDatetime iso8601}}&Param1=Parameter1&nested={"value1": "No1", "value2": "No2"}
+
+###
+GET http://localhost:8000/docs
+
+###
+GET http://localhost:8000/redoc
