@@ -1,0 +1,21 @@
+services:
+  echo-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - LOG_LEVEL=INFO
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+    # Optional: Volume für Development
+    # volumes:
+    #   - ./app.py:/app/app.py
+    # Command zum Überschreiben für Development mit reload:
+    # command: uvicorn app:app --host 0.0.0.0 --port 8000 --reload
