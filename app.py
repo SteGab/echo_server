@@ -80,7 +80,7 @@ async def echo_post(request: Request) -> Dict[str, Any]:
         }
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     import uvicorn
     logger.info("Starting Echo Server on http://127.0.0.1:8000")
     uvicorn.run(app, host="127.0.0.1", port=8000)
