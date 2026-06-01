@@ -2,6 +2,20 @@
 
 Ein einfacher Python-basierter Echo-Server, der GET und POST Requests verarbeitet und die empfangenen Daten an den Client zurücksendet. Alle Requests werden über einen Logger protokolliert.
 
+## Inhaltsverzeichnis
+
+- [Features](#features)
+- [Installation](#installation)
+- [Verwendung](#verwendung)
+- [Testing](#testing)
+- [API Dokumentation](#api-dokumentation)
+- [Deployment](#deployment)
+- [Projektstruktur](#projektstruktur)
+- [Technologie-Stack](#technologie-stack)
+- [Weitere Informationen](#weitere-informationen)
+- [Entwicklung und Beitragen](#entwicklung-und-beitragen)
+- [License](#license)
+
 ## Features
 
 - 🔄 **Echo-Funktionalität**: Sendet empfangene Daten im gleichen Format zurück
@@ -13,7 +27,7 @@ Ein einfacher Python-basierter Echo-Server, der GET und POST Requests verarbeite
 ## Installation
 
 ### Voraussetzungen
-- Python 3.8+
+- Python 3.14+
 - [uv](https://github.com/astral-sh/uv) (schneller Python Package Manager)
 
 ### Schritt 1: uv installieren (falls noch nicht vorhanden)
@@ -34,10 +48,10 @@ uv sync
 
 ## Verwendung
 
-### Server starten
+### Server starten (lokal)
 
 ```bash
-# Mit uv run
+# Mit uv run (mit Hot-Reload für Entwicklung)
 uv run uvicorn app:app --reload
 
 # Oder direkt mit Python
@@ -45,6 +59,21 @@ uv run python app.py
 ```
 
 Der Server läuft dann auf `http://127.0.0.1:8000`
+
+### Server starten mit Docker/Podman
+
+Für detaillierte Informationen zur Docker/Podman-Einrichtung siehe [DOCKER.md](./DOCKER.md)
+
+```bash
+# Mit Docker Compose (empfohlen)
+docker-compose up -d
+
+# Mit Podman Compose
+podman compose up -d
+
+# Logs anschauen
+docker-compose logs -f echo-server
+```
 
 ## Testing
 
@@ -69,14 +98,19 @@ uv run pytest --cov=app
 
 # Nur einen spezifischen Test ausführen
 uv run pytest tests/test_app.py::TestRootEndpoint::test_root_endpoint
+
+# Tests mit Cache-Clearing
+uv run pytest --cache-clear -v
 ```
 
 ### Test-Struktur
 
 ```
 tests/
+├── __init__.py          # Package initialization
 ├── conftest.py          # Shared fixtures und Konfiguration
-└── test_app.py          # Alle Tests für app.py
+├── test_app.py          # Tests für app.py
+└── test_json.py         # Tests für JSON-Verarbeitung
 ```
 
 **Test-Kategorien:**
@@ -84,6 +118,15 @@ tests/
 - **TestEchoGetEndpoint**: Tests für GET-Endpoint mit verschiedenen Parametern
 - **TestEchoPostEndpoint**: Tests für POST-Endpoint mit JSON-Daten
 - **TestEndpointIntegration**: Integrationstests für mehrere Endpoints
+
+### REST Client Testing
+
+Die Datei `test.http` kann mit VS Code REST Client oder ähnlichen Tools verwendet werden:
+
+```bash
+# Mit VS Code REST Client Extension
+# Einfach auf "Send Request" im Editor klicken
+```
 
 ### API Endpoints
 
@@ -172,11 +215,21 @@ Die empfangenen Requests werden auf der Konsole geloggt:
 2026-05-29 10:30:45,123 - __main__ - INFO - Received GET request to /echo-get with params: {'message': 'hello', 'value': '123'}
 2026-05-29 10:30:46,456 - __main__ - INFO - Received POST request to /echo-post with body: {"key": "value"}
 ```
-
-## API Dokumentation
-
-FastAPI generiert automatisch interaktive API-Dokumentation:
-
+     # Hauptanwendung (FastAPI)
+├── pyproject.toml              # Projekt-Konfiguration (uv)
+├── pytest.ini                  # Pytest Konfiguration
+├── Dockerfile                  # Docker Container Definition
+├── docker-compose.yml          # Docker Compose Konfiguration
+├── uv.lock                     # Lock-Datei (automatisch generiert)
+├── README.md                   # Diese Dokumentation
+├── DOCKER.md                   # Docker/Container Dokumentation
+├── test.http                   # REST Client Tests
+├── .gitignore                  # Git-Ignorierregeln
+└── tests/                      # Test Suite
+    ├── __init__.py
+    ├── conftest.py             # Test Fixtures und Konfiguration
+    ├── test_app.py             # App Tests
+    └── test_json.py            # JSON Handling Tests
 - **Swagger UI**: http://localhost:8000/docs
 - **ReDoc**: http://localhost:8000/redoc
 
@@ -206,16 +259,50 @@ echo_server/
 
 | Komponente | Version | Beschreibung |
 |-----------|---------|-------------|
+| Python | 3.14+ | Programmiersprache |
 | FastAPI | ≥0.100.0 | Web-Framework |
-| uv | Latest | Python Package Manager |
 | Uvicorn | ≥0.23.0 | ASGI-Server |
-| Python | 3.8+ | Programmiersprache |
+| uv | Latest | Python Package Manager |
+| pytest | ≥7.0.0 | Test Framework |
+
+## Deployment
+
+### Mit Docker/Podman
+
+Dieses Projekt wird mit Docker- und Podman-Support ausgeliefert. Detaillierte Anweisungen finden Sie in der [DOCKER.md](./DOCKER.md) Dokumentation.
+
+**Quick Start:**
+```bash
+# Docker Compose
+docker-compose up -d
+
+# oder mit Podman Compose
+podman compose up -d
+```
+
+Der Server wird unter `http://localhost:8000` verfügbar sein.
 
 ## Weitere Informationen
 
 - [FastAPI Documentation](https://fastapi.tiangolo.com/)
 - [Uvicorn Documentation](https://www.uvicorn.org/)
 - [Python Logging Module](https://docs.python.org/3/library/logging.html)
+- [Docker Support](./DOCKER.md)
+
+## Entwicklung und Beitragen
+
+Zum Beitragen zu diesem Projekt:
+
+1. Fork das Repository
+2. Erstelle einen Feature Branch (`git checkout -b feature/amazing-feature`)
+3. Commit deine Änderungen (`git commit -m 'Add amazing feature'`)
+4. Push zum Branch (`git push origin feature/amazing-feature`)
+5. Öffne einen Pull Request
+
+Stelle sicher, dass alle Tests bestehen:
+```bash
+uv run pytest -v
+```
 
 ## License
 
