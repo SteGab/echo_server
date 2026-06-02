@@ -1,5 +1,6 @@
 services:
   echo-server:
+    container_name: echo-server-dev
     build:
       context: .
       dockerfile: Dockerfile
